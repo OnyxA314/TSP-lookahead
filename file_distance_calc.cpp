@@ -41,24 +41,23 @@ int main (void)
 	{
 		cout << "Cordinate: " << cord.first << ", " << cord.second << "\n";
 	}
+	cout << "\n\n\n"; //code to seperate making sure we got the points to the actual math
 
 
-
-	//TODO: Go through each point and calculate the distance from every other point
-
-	for (auto cord : cords)
+	//TODO: this can be simplified. right now it calculates every point when we can simplify this. we are assuming x -> y is the same as y -> x. we can create code to prevent recalculation
+	for (auto cord : cords) //for every cordinate we have
 	{
-		double xinit = cord.first;
-		double yinit = cord.second;
+		double xinit = cord.first;	//initially set the x cordinate to current x cordinate we are at
+		double yinit = cord.second;	//initially set the y cordinate to current y cordinate we are at
 
 		for (auto cord2 : cords)
 		{
-			double x2 = cord2.first;
+			double x2 = cord2.first;	//gets new cordinates for every point
 			double y2 = cord2.second;
 
-			double distance = sqrt(pow(x2 - xinit, 2) + pow(y2 - yinit, 2));
+			double distance = sqrt(pow(x2 - xinit, 2) + pow(y2 - yinit, 2));	//calculates distance from initial point to every other point
 
-			cout << distance << endl;
+			cout << distance << endl;	//prints out the distance from every point
 		}
 		
 		cout << endl << endl;
