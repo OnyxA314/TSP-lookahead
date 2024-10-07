@@ -42,15 +42,28 @@ int main (void)
 		cout << "Cordinate: " << cord.first << ", " << cord.second << "\n";
 	}
 
-	return 0;
-
 
 
 	//TODO: Go through each point and calculate the distance from every other point
 
-	for (int i = 0; i < total_points; i++)
+	for (auto cord : cords)
 	{
+		double xinit = cord.first;
+		double yinit = cord.second;
+
+		for (auto cord2 : cords)
+		{
+			double x2 = cord2.first;
+			double y2 = cord2.second;
+
+			double distance = sqrt(pow(x2 - xinit, 2) + pow(y2 - yinit, 2));
+
+			cout << distance << endl;
+		}
+		
+		cout << endl << endl;
+	}
 
 
-	
+	return 0;	
 }
