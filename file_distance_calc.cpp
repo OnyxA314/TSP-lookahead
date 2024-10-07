@@ -20,7 +20,7 @@ int main (void)
 
 
 	//TODO: ask for userinput on what file to use. user enters number, such as 2, and then the program uses point_file_x.txt with x being the userinput. allows easier testing
-	ifstream point_file ("point_file_1.txt");
+	ifstream point_file ("point_file.txt");
 
 	
 	point_file >> total_points; //gets total points from the first line in the input file
