@@ -252,6 +252,10 @@ void calc_two_step (vector<pair<double, double>> cords)
 			{
             			// Skip the current point
            		} 
+			else if (xinit == x3 && yinit == y3)
+			{
+				//makes sure we don't loop back to node currently on
+			}
 			else if (new_distance < new_first_shortest) 
 			{
                 		new_third_shortest = new_second_shortest;
@@ -335,7 +339,13 @@ void calc_two_step (vector<pair<double, double>> cords)
         		if (new_xinit_2 == x4 && new_yinit_2 == y4) 
 			{
             			// Skip the current point
-           		} 
+           		}
+
+			else if (xinit == x4 && yinit == y4)
+		       {
+				//makes sure not looping back to first node
+		       }
+
 			else if (new_distance_2 < new_first_shortest_2) 
 			{
                 		new_third_shortest_2 = new_second_shortest_2;
@@ -419,6 +429,12 @@ void calc_two_step (vector<pair<double, double>> cords)
 			{
             			// Skip the current point
            		} 
+
+			else if (xinit == x5 && yinit == y5)
+			{
+				//make sure not looping back to point on already
+			}
+
 			else if (new_distance_3 < new_first_shortest_3) 
 			{
                 		new_third_shortest_3 = new_second_shortest_3;
