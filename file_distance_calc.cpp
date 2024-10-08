@@ -291,6 +291,11 @@ void calc_two_step (vector<pair<double, double>> cords)
         cout << "Node " << new_second_shortest_node << " with distance " << new_second_shortest << endl;
         cout << "Node " << new_third_shortest_node << " with distance " << new_third_shortest << endl;
 
+		
+
+
+	//calculate the shortest path given the first points
+	double first_potential_path_dist = new_first_shortest + first_shortest;
 
 
 	//even newer stuff
@@ -366,6 +371,8 @@ void calc_two_step (vector<pair<double, double>> cords)
         cout << "Node " << new_third_shortest_node_2 << " with distance " << new_third_shortest_2 << endl;
 
 
+	//calculate the shortest path given the second shortest initial node
+	double second_potential_path_dist = new_first_shortest_2 + second_shortest;
 
 	//even newer stuff
 	
@@ -444,7 +451,39 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 
 
+	//calculate the shortest path given the 3rd shortest initial node
+	double third_potential_path_dist = new_first_shortest_3 + third_shortest;
 
+
+
+
+	//print out the possible shortest paths
+	//
+	cout << "\nDISTANCE OF THE 3 SHORTEST PATHS:\n";
+	cout << "Path 1: " << first_potential_path_dist << endl;
+	cout << "Path 2: " << second_potential_path_dist << endl;
+	cout << "Path 3: " << third_potential_path_dist << endl;
+
+	//NOTE: there could be a tie, in that case it does the lowest path in the heigharchy. this is to help resolve so many situations I don't want to code for
+	//even though we calculate two steps ahead, we are only moving one step. this is to help prevent getting stuck in local traps and more potential to see better paths
+	if (first_potential_path_dist <= second_potential_path_dist && first_potential_path_dist <= third_potential_path_dist)
+	{
+		cout << "\nFirst path is the most efficient\n";
+
+		cout <<"We should go from Node " << node_tracker << " to Node " << first_shortest_node;
+	}
+	else if (second_potential_path_dist <= first_potential_path_dist && second_potential_path_dist <= third_potential_path_dist)
+	{
+		cout << "\nSecond path is most efficient\n";
+
+		cout <<"We should go from Node " << node_tracker  << " to Node " << second_shortest_node;
+	}
+	else
+	{
+		cout << "\nThird path is most efficient\n";
+
+		cout <<"We should go from Node " << node_tracker << " to Node :" << third_shortest_node;
+	}
 
 
 		node_tracker++;
