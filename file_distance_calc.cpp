@@ -98,7 +98,7 @@ int main (void)
 			}
 
 
-			cout << "Node " << node_tracker << " to " << inner_node_tracker << " has distance: " << distance << endl;	//prints out the distance from every point
+			//cout << "Node " << node_tracker << " to " << inner_node_tracker << " has distance: " << distance << endl;	//prints out the distance from every point
 			inner_node_tracker++;
 			
 		}
