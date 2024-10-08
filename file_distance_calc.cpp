@@ -60,7 +60,8 @@ int main (void)
 
 
 	//gets the distances between every point
-	all_distance_calculation(cords);
+	//was a testingpoint until I got calc_two_step(cords) working
+	//all_distance_calculation(cords);
 
 
 	//calculate 2-step optimal.if this works i'll eat my sock
@@ -285,6 +286,111 @@ void calc_two_step (vector<pair<double, double>> cords)
         cout << "Node " << new_first_shortest_node << " with distance " << new_first_shortest << endl;
         cout << "Node " << new_second_shortest_node << " with distance " << new_second_shortest << endl;
         cout << "Node " << new_third_shortest_node << " with distance " << new_third_shortest << endl;
+
+
+
+
+
+
+
+
+
+
+	//even newer stuff
+	
+
+
+        	double new_xinit_2 = cords[second_shortest_node].first;
+        	double new_yinit_2 = cords[second_shortest_node].second;
+
+
+
+
+
+		//NEW STUFF AS PART OF THIS FUNCTION. 
+	
+
+		//TODO: MAKE VARIABLES BETTER
+		//	new_first/second/third_shortest_2 is the 3 closest nodes to the 2nd shortest path from node A. initially set to virtual infinity
+		//	new_first/second/third_shortest_node_2 are the numbers of the 3 closest nodes to the 2nd shortest path from node A
+		//	new_inner_tracker_2 is keeping track of the nodes closest to the second shortest path from node A
+		//	x4 and y4 are the cordinates of the node being tested to the second shortest path from node A,,,, this calulates all the nodes from node C. (node B is the node resulting from shortest path)
+		//
+
+		cout << "\nCalculating 3 shortest distances from the first shortest node (Node " << second_shortest_node << "):\n";
+
+		// Re-initialize shortest variables
+		float new_first_shortest_2 = 999999999, new_second_shortest_2 = 999999999, new_third_shortest_2 = 999999999;
+		int new_first_shortest_node_2, new_second_shortest_node_2, new_third_shortest_node_2;
+		int new_inner_tracker_2 = 0;
+
+		for (auto cord3 : cords) 
+		{
+			double x4 = cord3.first;
+        		double y4 = cord3.second;
+		
+        		double new_distance_2 = sqrt(pow(x4 - new_xinit_2, 2) + pow(y4 - new_yinit_2, 2));  // Calculate distance from node 3
+
+        		if (new_xinit_2 == x4 && new_yinit_2 == y4) 
+			{
+            			// Skip the current point
+           		} 
+			else if (new_distance_2 < new_first_shortest_2) 
+			{
+                		new_third_shortest_2 = new_second_shortest_2;
+                		new_third_shortest_node_2 = new_second_shortest_node_2;
+
+                		new_second_shortest_2 = new_first_shortest_2;
+               			new_second_shortest_node_2 = new_first_shortest_node_2;
+
+                		new_first_shortest_2 = new_distance_2;
+               			new_first_shortest_node_2 = new_inner_tracker_2;
+			} 
+			
+			else if (new_distance_2 < new_second_shortest_2) 
+			{
+             			new_third_shortest_2 = new_second_shortest_2;
+                		new_third_shortest_node_2 = new_second_shortest_node_2;
+
+                		new_second_shortest_2 = new_distance_2;
+                		new_second_shortest_node_2 = new_inner_tracker_2;
+            		} 
+			else if (new_distance_2 < new_third_shortest_2) 
+			{
+               			new_third_shortest_2 = new_distance_2;
+                		new_third_shortest_node_2 = new_inner_tracker_2;
+            		}
+           
+			new_inner_tracker_2++;
+        
+		}
+
+        // Display the 3 shortest distances from the second shortest node
+        cout << "Node " << new_first_shortest_node_2 << " with distance " << new_first_shortest_2 << endl;
+        cout << "Node " << new_second_shortest_node_2 << " with distance " << new_second_shortest_2 << endl;
+        cout << "Node " << new_third_shortest_node_2 << " with distance " << new_third_shortest_2 << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
