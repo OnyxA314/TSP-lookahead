@@ -293,26 +293,10 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 
 
-
-
-
-
-
-
-
 	//even newer stuff
-	//
-	
-
 
         	double new_xinit_2 = cords[second_shortest_node].first;
         	double new_yinit_2 = cords[second_shortest_node].second;
-
-
-
-
-
-		//NEW STUFF AS PART OF THIS FUNCTION. 
 	
 
 		//TODO: MAKE VARIABLES BETTER
@@ -383,16 +367,7 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 
 
-
-
-
-
-
-
-
-
-
-	//wayyyyy even newer stuff
+	//even newer stuff
 	
 
         	double new_xinit_3 = cords[third_shortest_node].first;
@@ -407,9 +382,6 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 		//TODO: MAKE VARIABLES BETTER
 		
-
-
-
 
 		cout << "\nCalculating 3 shortest distances from the third shortest node (Node " << third_shortest_node << "):\n";
 
@@ -469,18 +441,6 @@ void calc_two_step (vector<pair<double, double>> cords)
         cout << "Node " << new_first_shortest_node_3 << " with distance " << new_first_shortest_3 << endl;
         cout << "Node " << new_second_shortest_node_3 << " with distance " << new_second_shortest_3 << endl;
         cout << "Node " << new_third_shortest_node_3 << " with distance " << new_third_shortest_3 << endl;
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
