@@ -482,7 +482,7 @@ void calc_two_step (vector<pair<double, double>> cords)
 	{
 		cout << "\nThird path is most efficient\n";
 
-		cout <<"We should go from Node " << node_tracker << " to Node :" << third_shortest_node;
+		cout <<"We should go from Node " << node_tracker << " to Node " << third_shortest_node;
 	}
 
 
