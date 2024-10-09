@@ -16,11 +16,10 @@ using namespace std; //NOTE THIS HAS TO GO BEFORE ALL FUNCTIONS, TOOK ME WAY TO 
 
 
 /**************************function hell *********************************/
-void all_distance_calculation(vector<pair<double, double>> cords);
-void calc_two_step (vector<pair<double, double>> cords);
-void making_distance_matrix (vector <pair <double, double>> cords, vector<vector<double>> &distance_matrix, vector <vector <pair <double, int>>> &shortest_nodes);
+//void all_distance_calculation(vector<pair<double, double>> cords);
+//void calc_two_step (vector<pair<double, double>> cords);
+void making_distance_matrix (vector <pair <double, double>> cords, vector <vector <pair <double, int>>> &shortest_nodes);
 
-//using namespace std;
 
 int main (void)
 {
@@ -33,29 +32,24 @@ int main (void)
 
 
 
-
+	//opens the point_file.txt and inserts the first line into total_points. first line has to say how many total coordinates there are
 	int total_points;
-
 	ifstream point_file ("point_file.txt");
-
-	
 	point_file >> total_points; //gets total points from the first line in the input file
 	
 
 
+	//TODO: check if we still need this with shortest_nodes. NOTE: WE DO NOT
 	//create a vector of nxn where n is the total amount of points
-	vector <vector <double>> distance_matrix(total_points, vector<double>(total_points));
+	//vector <vector <double>> distance_matrix(total_points, vector<double>(total_points));
 
 
 
-	//2D array to hold the k shortest nodes for every given point. used to make some calculation easier. overall will be an nxk array
-	//NOTE: might make this nxn vector to hold all nodes in the sorted order. don't know how expensive it will be nor how benefitial it will be
+	//2D array to hold the k shortest nodes for every given point. used to make some calculation easier. overall will be an nxn array
 	//this creates an nxn vector of shortest_nodes.
-	//this vector has a pair of the shortest nodes and the distance that node has
-	//
-	//
+	//this vector has a pair of the shortest nodes and the distance that node has. very nice to have all data compacted like this
 	vector <vector <pair <double, int>>> shortest_nodes (total_points, vector <pair <double, int>>(total_points));;
-	//vector <vector <double>> shortest_nodes(total_points, vector<double>(total_points));
+
 	
 
 
@@ -94,6 +88,8 @@ int main (void)
 
 
 
+
+	//reads in the points from the .txt file
 	for (int i = 0; i < total_points; i++) //as long as there are points to be calculated (gotten from first line of .txt file does the code)
 	{
 		//gets the x, y points for each point
@@ -122,10 +118,11 @@ int main (void)
 	//all_distance_calculation(cords);
 
 
-	making_distance_matrix(cords, distance_matrix, shortest_nodes);
+	//creates the matrix array and sorts it based off the shortest distance from node A. shortest_nodes stores distance and node so all information needed is there. 
+	making_distance_matrix(cords, shortest_nodes);
 
 
-
+/*
 	//testing out I made the 2D vector correct
 	for (int i = 0; i < total_points; i++)
 	{
@@ -138,20 +135,20 @@ int main (void)
 		cout << endl;
 	}
 
-
+*/
 
 
 
 	//printing out the (hopefully) sorted shortest_node vectors
 	for (int i = 0; i < total_points; i++)
 	{
-		cout << "Node: " << i << endl;
+		cout << "From Node: " << i << endl;
 		for (int j = 1; j < total_points; j++) //doesn't check first point as first point is itself so it will always be the shortest
 		{
-			cout << shortest_nodes[i][j].second << " ";
+			cout <<shortest_nodes[i][j].second << " has a distance of " << shortest_nodes[i][j].first << endl;
 		}
 		
-		cout << endl;
+		cout << endl << endl;
 	}
 	
 
@@ -169,7 +166,7 @@ int main (void)
 
 
 
-
+/*
 void all_distance_calculation(vector<pair<double, double>> cords)
 {
 	int node_tracker = 0;
@@ -248,11 +245,11 @@ void all_distance_calculation(vector<pair<double, double>> cords)
 
 	return;
 }
+*/
 
 
 
-
-void making_distance_matrix (vector <pair <double, double>> cords, vector<vector<double>> &distance_matrix, vector <vector <pair <double, int>>> &shortest_nodes)
+void making_distance_matrix (vector <pair <double, double>> cords, vector <vector <pair <double, int>>> &shortest_nodes)
 //passes in cords and distance_matrix is passed by reference allowing changes in function without returning it. TODO: maybe change this to pass by value to make this more obvious?
 {
 
@@ -279,7 +276,7 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector<vector
 		float first_shortest_node, second_shortest_node, third_shortest_node;
 		int inner_node_tracker = 0;	
 		
-		cout << "Current Node: " << node_tracker << endl;
+		//cout << "Current Node: " << node_tracker << endl;
 
 		for (auto cord2 : cords)
 		{
@@ -289,7 +286,9 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector<vector
 
 			double distance = sqrt(pow(x2 - xinit, 2) + pow(y2 - yinit, 2));	//calculates distance from initial point to every other point
 		
-			
+		
+
+/*	
 			if(xinit == x2 && yinit == y2)
 			{
 				//this is testing to see if we are on the point we are currently measuing. if we are skip testing to see if it's shorter as the distance from itself is 0
@@ -310,10 +309,11 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector<vector
 				third_shortest_node = inner_node_tracker;
 			}
 
-
-
+*/
+			
+			//TODO: if this runs with this commented out then delete
 			//updates the adjacency matrix
-			distance_matrix[node_tracker][inner_node_tracker] = distance;
+			//distance_matrix[node_tracker][inner_node_tracker] = distance; //is this even needed anymore
 
 			//also temporary updates the shortest_node vector to sort later
 			shortest_nodes[node_tracker][inner_node_tracker] = make_pair(distance, inner_node_tracker);
@@ -324,11 +324,13 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector<vector
 			
 		}
 
+
+/*
 		cout << "\nTHE SHORTEST DISTANCES FROM NODE " << node_tracker <<":\n";
 		cout << "Node " << first_shortest_node << " with distance " << first_shortest << endl;
 		cout << "Node " << second_shortest_node << " with distance " << second_shortest << endl;
 		cout << "Node " << third_shortest_node << " with distance " << third_shortest << endl;
-
+*/
 	
 		//this sortes the nodes into a new vector based on distance. NOTE this only sorts the node number and must use distance_matrix to lookup the distance. 3D vector to hold x, y, distance? might be way to complicated
 		//shortest_nodes[node_tracker] = distance_matrix[node_tracker];
@@ -341,15 +343,6 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector<vector
 	}
 
 
-
-
-
-
-
-
-
-
-
 	return;
 }
 
@@ -357,6 +350,8 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector<vector
 
 
 
+
+/*
 //I hope one day I can be forgiven for writting this code
 void calc_two_step (vector<pair<double, double>> cords)
 {
@@ -695,3 +690,4 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 	return;
 }
+*/
