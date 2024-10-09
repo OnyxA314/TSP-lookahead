@@ -334,10 +334,8 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector <vecto
 		cout << "Node " << third_shortest_node << " with distance " << third_shortest << endl;
 */
 	
-		//this sortes the nodes into a new vector based on distance. NOTE this only sorts the node number and must use distance_matrix to lookup the distance. 3D vector to hold x, y, distance? might be way to complicated
-		//shortest_nodes[node_tracker] = distance_matrix[node_tracker];
+		//this sortes the nodes into a new vector based on distance. shortest_nodes[i][j].first gives out the distance while shortest_nodes[i][j].second gives out the node itself. With this most data needed is in this array
 		sort(shortest_nodes[node_tracker].begin(), shortest_nodes[node_tracker].end());
-
 
 		node_tracker++;
 
