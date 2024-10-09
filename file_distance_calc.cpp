@@ -140,6 +140,7 @@ int main (void)
 
 
 	//printing out the (hopefully) sorted shortest_node vectors
+	//NOTE: printing is so computationally expensive comment this out in final. this is good though for testing
 	cout << "\n\n";
 	for (int i = 0; i < total_points; i++)
 	{
