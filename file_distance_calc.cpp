@@ -16,8 +16,8 @@ using namespace std; //NOTE THIS HAS TO GO BEFORE ALL FUNCTIONS, TOOK ME WAY TO 
 
 
 /**************************function hell *********************************/
-//void all_distance_calculation(vector<pair<double, double>> cords);
-//void calc_two_step (vector<pair<double, double>> cords);
+void all_distance_calculation(vector<pair<double, double>> cords);
+void calc_two_step (vector<pair<double, double>> cords);
 void making_distance_matrix (vector <pair <double, double>> cords, vector <vector <pair <double, int>>> &shortest_nodes);
 
 
@@ -39,9 +39,9 @@ int main (void)
 	
 
 
-	//TODO: check if we still need this with shortest_nodes. NOTE: WE DO NOT
+	//TODO: check if we still need this with shortest_nodes. NOTE: WE DO NOT HOWEVER STILL NEEDED FOR 'calc_two_step'
 	//create a vector of nxn where n is the total amount of points
-	//vector <vector <double>> distance_matrix(total_points, vector<double>(total_points));
+	vector <vector <double>> distance_matrix(total_points, vector<double>(total_points));
 
 
 
@@ -168,7 +168,7 @@ int main (void)
 
 
 
-/*
+
 void all_distance_calculation(vector<pair<double, double>> cords)
 {
 	int node_tracker = 0;
@@ -247,7 +247,7 @@ void all_distance_calculation(vector<pair<double, double>> cords)
 
 	return;
 }
-*/
+
 
 
 
@@ -334,7 +334,7 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector <vecto
 		cout << "Node " << third_shortest_node << " with distance " << third_shortest << endl;
 */
 	
-		//this sortes the nodes into a new vector based on distance. shortest_nodes[i][j].first gives out the distance while shortest_nodes[i][j].second gives out the node itself. With this most data needed is in this array
+		//this sortes the nodes into a new vector based on distance. shortest_nodes[i][j].first gives out the distance while shortest_nodes[i][j].second gives out the node itself. With this most data needed is in this vector it's very nice :)
 		sort(shortest_nodes[node_tracker].begin(), shortest_nodes[node_tracker].end());
 
 		node_tracker++;
@@ -351,7 +351,7 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector <vecto
 
 
 
-/*
+//TODO: NOTE: WHATEVER: THIS DOES NOT CALCULATE THE OPTIMAL FIRST 3 NODES. SOMETHING WRONG WITH MY CODE. I THINKIN THE FIRST INNER FOR LOOP IS WHERE THE CODE IS FUCKED DUE TO NOT MOVING THINGS AFTER FINDING A MORE EFFICIENT PATH!!!!!!!!!!!!!
 //I hope one day I can be forgiven for writting this code
 void calc_two_step (vector<pair<double, double>> cords)
 {
@@ -690,4 +690,4 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 	return;
 }
-*/
+
