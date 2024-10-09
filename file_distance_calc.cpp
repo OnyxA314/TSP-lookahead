@@ -140,9 +140,10 @@ int main (void)
 
 
 	//printing out the (hopefully) sorted shortest_node vectors
+	cout << "\n\n";
 	for (int i = 0; i < total_points; i++)
 	{
-		cout << "From Node: " << i << endl;
+		cout << "From Node " << i <<": " << endl;
 		for (int j = 1; j < total_points; j++) //doesn't check first point as first point is itself so it will always be the shortest
 		{
 			cout <<shortest_nodes[i][j].second << " has a distance of " << shortest_nodes[i][j].first << endl;
@@ -339,7 +340,7 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector <vecto
 
 		node_tracker++;
 
-		cout << endl << endl;
+		//cout << endl << endl;
 	}
 
 
