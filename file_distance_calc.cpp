@@ -17,7 +17,7 @@ using namespace std; //NOTE THIS HAS TO GO BEFORE ALL FUNCTIONS, TOOK ME WAY TO 
 /**************************function hell *********************************/
 void all_distance_calculation(vector<pair<double, double>> cords);
 void calc_two_step (vector<pair<double, double>> cords);
-
+void making_distance_matrix (vector <pair <double, double>> cords, vector<vector<double>> &distance_matrix);
 
 //using namespace std;
 
@@ -26,6 +26,11 @@ int main (void)
 	vector<pair<double, double>> cords; //creates a vector of pairs called cords of the form (double, double) 
 	double x, y;	
 
+
+	//creates a vector of bools to see if we visited a node. node 0 has pos 0. node 29 has pos 29, etc etc.
+	vector<bool> visited_point;
+
+
 	int total_points;
 
 	ifstream point_file ("point_file.txt");
@@ -33,7 +38,44 @@ int main (void)
 	
 	point_file >> total_points; //gets total points from the first line in the input file
 	
-	//cout << total_points << endl;
+
+
+	//create a vector of nxn where n is the total amount of points
+	vector <vector <double>> distance_matrix(total_points, vector<double>(total_points));
+
+
+	//initializes distance matrix. point to itself is 0, otherwise set distance to virtual infinity
+	for(int i = 0; i < total_points; i++)
+	{
+		for (int j = 0; j < total_points; j++)
+		{
+			if (i == j)
+			{
+				distance_matrix[i][j] = 0;
+			}
+			else
+			{
+				distance_matrix[i][j] = 999999999; //dont really need to do this but oh well
+			}
+		}
+	}
+
+
+
+/*
+	//testing out I made the 2D vector correct
+	for (int i = 0; i < total_points; i++)
+	{
+		cout << "Node: " << i << endl;
+		for (int j = 0; j < total_points; j++)
+		{
+			cout << distance_matrix[i][j] << endl;
+		}
+
+		cout << endl;
+	}
+*/
+
 
 
 	for (int i = 0; i < total_points; i++) //as long as there are points to be calculated (gotten from first line of .txt file does the code)
@@ -64,8 +106,29 @@ int main (void)
 	//all_distance_calculation(cords);
 
 
+	making_distance_matrix(cords, distance_matrix);
+
+
+
+	//testing out I made the 2D vector correct
+	for (int i = 0; i < total_points; i++)
+	{
+		cout << "Node: " << i << endl;
+		for (int j = 0; j < total_points; j++)
+		{
+			cout << distance_matrix[i][j] << endl;
+		}
+
+		cout << endl;
+	}
+
+
+	
+
+
+	//NOTE: this right now has the majority of the code to use
 	//calculate 2-step optimal.if this works i'll eat my sock
-	calc_two_step(cords);
+	//calc_two_step(cords);
 
 
 	return 0;	
@@ -147,6 +210,100 @@ void all_distance_calculation(vector<pair<double, double>> cords)
 
 		cout << endl << endl;
 	}
+
+
+
+	return;
+}
+
+
+
+void making_distance_matrix (vector <pair <double, double>> cords, vector<vector<double>> &distance_matrix) //passes in cords and distance_matrix is passed by reference allowing changes in function without returning it. TODO: maybe change this to pass by value to make this more obvious?
+{
+
+
+	int node_tracker = 0;
+
+
+	//NOTE: we can make this even faster. we can only check x and y points and see if those are greater than 3 shortest already known.
+	//	if they x and y points are greater we know the distance is greater so we don't have to waste time doing the math to already figure out what we know.
+	//	i.e. at point (0,0) we know point (5,1) is going to be closer than (6, 2) because the x and y is greater both greater. 
+	
+	//TODO: this can be simplified. right now it calculates every point when we can simplify this. we are assuming x -> y is the same as y -> x. we can create code to prevent recalculation
+	for (auto cord : cords) //for every cordinate we have
+	{
+		double xinit = cord.first;	//initially set the x cordinate to current x cordinate we are at
+		double yinit = cord.second;	//initially set the y cordinate to current y cordinate we are at
+		
+		//creates 3 shortest variables and sets them to virtual infinity for testing
+		float first_shortest, second_shortest, third_shortest;
+		first_shortest = 999999999;
+		second_shortest = 999999999;
+		third_shortest = 999999999;
+
+		float first_shortest_node, second_shortest_node, third_shortest_node;
+		int inner_node_tracker = 0;	
+		
+		cout << "Current Node: " << node_tracker << endl;
+
+		for (auto cord2 : cords)
+		{
+			
+			double x2 = cord2.first;	//gets new cordinates for every point
+			double y2 = cord2.second;
+
+			double distance = sqrt(pow(x2 - xinit, 2) + pow(y2 - yinit, 2));	//calculates distance from initial point to every other point
+		
+			
+			if(xinit == x2 && yinit == y2)
+			{
+				//this is testing to see if we are on the point we are currently measuing. if we are skip testing to see if it's shorter as the distance from itself is 0
+			}			
+			else if (distance < first_shortest)
+			{
+				first_shortest = distance;
+				first_shortest_node = inner_node_tracker;
+			}
+			else if (distance < second_shortest)
+			{
+				second_shortest = distance;
+				second_shortest_node = inner_node_tracker;
+			}
+			else if (distance < third_shortest)
+			{
+				third_shortest = distance;
+				third_shortest_node = inner_node_tracker;
+			}
+
+
+
+			//updates the adjacency matrix
+			distance_matrix[node_tracker][inner_node_tracker] = distance;
+
+
+			//cout << "Node " << node_tracker << " to " << inner_node_tracker << " has distance: " << distance << endl;	//prints out the distance from every point
+			inner_node_tracker++;
+			
+		}
+
+		cout << "\nTHE SHORTEST DISTANCES FROM NODE " << node_tracker <<":\n";
+		cout << "Node " << first_shortest_node << " with distance " << first_shortest << endl;
+		cout << "Node " << second_shortest_node << " with distance " << second_shortest << endl;
+		cout << "Node " << third_shortest_node << " with distance " << third_shortest << endl;
+
+		node_tracker++;
+
+		cout << endl << endl;
+	}
+
+
+
+
+
+
+
+
+
 
 
 	return;
