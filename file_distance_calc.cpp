@@ -19,7 +19,7 @@ using namespace std; //NOTE THIS HAS TO GO BEFORE ALL FUNCTIONS, TOOK ME WAY TO 
 void all_distance_calculation(vector<pair<double, double>> cords);
 void calc_two_step (vector<pair<double, double>> cords);
 void making_distance_matrix (vector <pair <double, double>> cords, vector <vector <pair <double, int>>> &shortest_nodes);
-
+void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes);
 
 int main (void)
 {
@@ -159,6 +159,7 @@ int main (void)
 	//calculate 2-step optimal.if this works i'll eat my sock
 	//calc_two_step(cords);
 
+	two_step_with_matrix(shortest_nodes);
 
 	return 0;	
 }
@@ -691,3 +692,93 @@ void calc_two_step (vector<pair<double, double>> cords)
 	return;
 }
 
+
+//TODO: FIX; right now this calculates things like node 0 to first node in node 2 then node 2 to first node in 3. then it calculates node 0 to second node in 3 then node 3 to second node in 4. I want it to calculate node 0 to first node in node 2, then node to to first node in 3 and node 0 to first node in 2, then node 2 to first node in 4, or whatever the first and second shortest distances are from node 0 -> 2 -> x
+void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
+{
+	int k_branches = 2; //lets k_branches to 3. in future we will let users enter the value for k
+
+	double total_dist = 0; //base total_dist;
+	double total_dist_1 = 0;
+	double total_dist_2 = 0;
+	double total_dist_3 = 0;
+
+	int base_node;
+	int node_1;
+	int node_2;
+	int node_3;
+
+	int node_tracker = 0; //keeps track of nodes
+
+
+	for (auto nodes : shortest_nodes) //goes through every node in shortest_nodes
+	{
+
+
+		for (int i = 1; i <= k_branches; i++) //start at i=1 so we don't check distance from itself
+		{
+
+
+			//resets distance for new head node
+			total_dist_1 = 0;
+			total_dist_2 = 0;
+			total_dist_3 = 0;
+			total_dist = 0;
+
+			total_dist_1 += shortest_nodes[node_tracker][i].first;
+			node_1 = shortest_nodes[node_tracker][i].second;
+
+			//total_dist += shortest_nodes[node_1][i].first;
+		
+			//cout << total_dist << endl;
+			//cout << "node_1 contains value: " << node_1 << endl;
+
+			//total_dist_1 += shortest_nodes[node_1][i].first;
+			//node_2 = shortest_nodes[node_1][i].second;
+
+
+			cout << "/***************************************** total_dist_1 ***************************************/\n";
+			cout << total_dist_1 << endl;
+			//cout << "For Node: " << node_tracker << "\n";
+			cout << "Node_1 contains: " << node_1 << " Node 2 contains: " << node_2 << endl;
+		
+
+
+
+
+
+
+
+			total_dist_2 += shortest_nodes[node_1][i+1].first;
+			node_1 = shortest_nodes[node_tracker][i].second;
+
+			total_dist += shortest_nodes[node_1][i+1].first;
+			node_2 = shortest_nodes[node_1][i].second;
+
+/*
+			//for second based base of first 2 root nodes
+			total_dist_2 += shortest_nodes[node_tracker][i].first;
+			node_1 = shortest_nodes[node_tracker][i+1].second;
+
+			total_dist_2 += shortest_nodes[node_1][i].first;
+
+			cout << "****************************************** total_dist_2 ****************************************\n";
+			cout << endl << total_dist_2 << endl;
+			cout << "Node_1 contains: " << node_1 << " Node 2 contains: " << node_2 << endl;
+
+*/
+		}	
+
+		node_tracker++;
+		cout << endl << endl;
+
+	}
+
+
+
+
+
+
+
+	return;
+}
