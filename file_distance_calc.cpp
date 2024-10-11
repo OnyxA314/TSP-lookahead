@@ -139,6 +139,9 @@ int main (void)
 
 
 
+
+	//NOTE: this is useful debugging, remove comment block if errors to help testing what all the values from node A -> B is
+/*
 	//printing out the (hopefully) sorted shortest_node vectors
 	//NOTE: printing is so computationally expensive comment this out in final. this is good though for testing
 	cout << "\n\n";
@@ -152,7 +155,7 @@ int main (void)
 		
 		cout << endl << endl;
 	}
-	
+*/	
 
 
 	//NOTE: this right now has the majority of the code to use
@@ -696,7 +699,7 @@ void calc_two_step (vector<pair<double, double>> cords)
 //TODO: FIX; right now this calculates things like node 0 to first node in node 2 then node 2 to first node in 3. then it calculates node 0 to second node in 3 then node 3 to second node in 4. I want it to calculate node 0 to first node in node 2, then node to to first node in 3 and node 0 to first node in 2, then node 2 to first node in 4, or whatever the first and second shortest distances are from node 0 -> 2 -> x
 void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 {
-	int k_branches = 2; //lets k_branches to 3. in future we will let users enter the value for k
+	int k_branches = 3; //lets k_branches to 3. in future we will let users enter the value for k
 
 	double total_dist = 0; //base total_dist;
 	double total_dist_1 = 0;
@@ -709,24 +712,30 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 	int node_3;
 
 	int node_tracker = 0; //keeps track of nodes
+	
 
+	//vector of pairs to keep track of the shortest distance and the second node belonging to that path
+	//vector<pair<double, int>> path_info; //now that I discovered what pair does I feel like I'll use them constantly. similar to what I did with vectors
 
 	for (auto nodes : shortest_nodes) //goes through every node in shortest_nodes
 	{
 
-
+		vector<pair<double, int>> path_info;
 		for (int i = 1; i <= k_branches; i++) //start at i=1 so we don't check distance from itself
 		{
 
-
+			
 			//resets distance for new head node
 			total_dist_1 = 0;
 			total_dist_2 = 0;
 			total_dist_3 = 0;
 			total_dist = 0;
 
-			total_dist_1 += shortest_nodes[node_tracker][i].first;
-			node_1 = shortest_nodes[node_tracker][i].second;
+			int second_node;
+			int third_node;
+
+			total_dist += shortest_nodes[node_tracker][i].first; //adds node currently on to next node distance //THIS WORKS PROPERLY
+			//node_1 = shortest_nodes[node_tracker][i].second;
 
 			//total_dist += shortest_nodes[node_1][i].first;
 		
@@ -736,26 +745,36 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 			//total_dist_1 += shortest_nodes[node_1][i].first;
 			//node_2 = shortest_nodes[node_1][i].second;
 
+			second_node = shortest_nodes[node_tracker][i].second;	//gets second node	//THIS WORKS PROPERLY
 
-			cout << "/***************************************** total_dist_1 ***************************************/\n";
-			cout << total_dist_1 << endl;
+			total_dist += shortest_nodes[second_node][1].first;	//adds distance from second node to the distance from the first node	 
+										//Because at this moment we are only doing 1-step we only have to check the 1st position. with n-step
+										//this code is going have to change
+
+			third_node = shortest_nodes[second_node][1].second;	//gets the third node (node both distances are leading to) 
+										//because at this moment we are only doing 1-step we only have to check the 1st potition. with n-step 
+										//this code will have to change. maybe with another tracker that adds 1 each time then gets reset at 
+										//the top of the loop
+
+
+			cout << "/***************************************** Total Distance For This Path ***************************************/\n";
+			//cout << total_dist_1 << endl;
 			//cout << "For Node: " << node_tracker << "\n";
-			cout << "Node_1 contains: " << node_1 << " Node 2 contains: " << node_2 << endl;
-		
+			cout << "Node " << node_tracker << " to Node " << second_node << " to Node " << third_node << " has distance " << total_dist << endl;
+			path_info.push_back(make_pair(total_dist, second_node)); //puts the total_dist and the second node leading to that dist into a vector called path_info
 
 
 
 
-
-
+/*
 
 			total_dist_2 += shortest_nodes[node_1][i+1].first;
 			node_1 = shortest_nodes[node_tracker][i].second;
 
 			total_dist += shortest_nodes[node_1][i+1].first;
 			node_2 = shortest_nodes[node_1][i].second;
-
-/*
+*/
+/* 
 			//for second based base of first 2 root nodes
 			total_dist_2 += shortest_nodes[node_tracker][i].first;
 			node_1 = shortest_nodes[node_tracker][i+1].second;
@@ -767,7 +786,21 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 			cout << "Node_1 contains: " << node_1 << " Node 2 contains: " << node_2 << endl;
 
 */
-		}	
+		}
+
+		
+       		pair<double, int> shortest_path = path_info[0]; // Creates new pair to store shortest distance and it's node. We assume the first path is the shortest initially
+        	for (int i = 1; i < path_info.size(); i++) // Compare each path
+        	{
+            		if (path_info[i].first < shortest_path.first) // If a shorter path is found, update
+            		{
+                		shortest_path = path_info[i];
+            		}
+        	}
+
+		cout << "\nThe shortest path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
+
+
 
 		node_tracker++;
 		cout << endl << endl;
