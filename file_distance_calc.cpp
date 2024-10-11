@@ -697,6 +697,8 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 
 //TODO: FIX; right now this calculates things like node 0 to first node in node 2 then node 2 to first node in 3. then it calculates node 0 to second node in 3 then node 3 to second node in 4. I want it to calculate node 0 to first node in node 2, then node to to first node in 3 and node 0 to first node in 2, then node 2 to first node in 4, or whatever the first and second shortest distances are from node 0 -> 2 -> x
+//
+//TODO: Add code to prevent doubling back to a point previously visited, then go back to the starting node after all points have been visited.
 void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 {
 	int k_branches = 3; //lets k_branches to 3. in future we will let users enter the value for k
