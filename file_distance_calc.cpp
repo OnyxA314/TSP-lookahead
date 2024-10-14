@@ -700,28 +700,6 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 			path_info.push_back(make_pair(total_dist, second_node)); //puts the total_dist and the second node leading to that dist into a vector called path_info
 
 
-
-
-/*
-
-			total_dist_2 += shortest_nodes[node_1][i+1].first;
-			node_1 = shortest_nodes[node_tracker][i].second;
-
-			total_dist += shortest_nodes[node_1][i+1].first;
-			node_2 = shortest_nodes[node_1][i].second;
-*/
-/* 
-			//for second based base of first 2 root nodes
-			total_dist_2 += shortest_nodes[node_tracker][i].first;
-			node_1 = shortest_nodes[node_tracker][i+1].second;
-
-			total_dist_2 += shortest_nodes[node_1][i].first;
-
-			cout << "****************************************** total_dist_2 ****************************************\n";
-			cout << endl << total_dist_2 << endl;
-			cout << "Node_1 contains: " << node_1 << " Node 2 contains: " << node_2 << endl;
-
-*/
 		}
 
 		
