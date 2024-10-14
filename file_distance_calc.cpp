@@ -777,6 +777,7 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 	double total_dist_1 = 0;
 	double total_dist_2 = 0;
 	double total_dist_3 = 0;
+	double distance_traveled = 0;
 
 	int base_node;
 	int node_1;
@@ -833,10 +834,13 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 										//the top of the loop
 
 
+			//TODO: UNCOMMENT BELOW CODE TO SEE ALL THE PATHS AND DISTANCES FROM ALL PATHS
+
 			cout << "***************************************** Total Distance For This Path ***************************************\n";
 			//cout << total_dist_1 << endl;
 			//cout << "For Node: " << node_tracker << "\n";
 			cout << "Node " << node_tracker << " to Node " << second_node << " to Node " << third_node << " has distance " << total_dist << endl;
+
 			path_info.push_back(make_pair(total_dist, second_node)); //puts the total_dist and the second node leading to that dist into a vector called path_info
 
 
@@ -869,20 +873,34 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 			}
 		}
 
+
+	//TODO: unncomment below code to see the shortest valid paths with what node should be visited next
 	cout << "\nThe shortest valid path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
 
 	if (find(visited_nodes.begin(), visited_nodes.end(), shortest_path.second) == visited_nodes.end()) 
 	{
 		visited_nodes.push_back(shortest_path.second); // Add to visited nodes if not already visited
+		distance_traveled += shortest_path.first;
 	} 
-	else 
+	else //this is the last node, it has to go back to the starting point 
 	{
-		// If all nodes are visited, or some other logic to handle this case can be added
-		visited_nodes.push_back(-1); // Placeholder for now
+		visited_nodes.push_back(0);
+
+		
+		for (auto end_to_start : shortest_nodes[shortest_path.second]) //goes through the list until we find the ending node to the starting node (node 0), then add the distance from that to it
+		{
+			if (end_to_start.second == 0)
+			{
+				distance_traveled += end_to_start.first;
+				break; //break as we found where 0 is at
+			}
+		}
 	}
 
 
 		node_tracker++;
+	
+		//TODO:uncomment below for better formatting
 		cout << endl << endl;
 
 	}
@@ -897,6 +915,8 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 	{
 		cout << nodes << " ";
 	}
+
+	cout << "\nWe traveled a total distance of: " << distance_traveled;
 	cout << endl << endl;
 
 	return;
