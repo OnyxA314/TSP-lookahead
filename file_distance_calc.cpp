@@ -20,7 +20,7 @@ using namespace std; //NOTE THIS HAS TO GO BEFORE ALL FUNCTIONS, TOOK ME WAY TO 
 //void calc_two_step (vector<pair<double, double>> cords);
 void making_distance_matrix (vector <pair <double, double>> cords, vector <vector <pair <double, int>>> &shortest_nodes);
 void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes);
-void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes);
+void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes, int total_points);
 
 int main (void)
 {
@@ -90,7 +90,7 @@ int main (void)
 	//two_step_with_matrix(shortest_nodes);
 
 
-	traveling_through_points(shortest_nodes);
+	traveling_through_points(shortest_nodes, total_points);
 
 	return 0;	
 }
@@ -629,6 +629,8 @@ void calc_two_step (vector<pair<double, double>> cords)
 //TODO: FIX; right now this calculates things like node 0 to first node in node 2 then node 2 to first node in 3. then it calculates node 0 to second node in 3 then node 3 to second node in 4. I want it to calculate node 0 to first node in node 2, then node to to first node in 3 and node 0 to first node in 2, then node 2 to first node in 4, or whatever the first and second shortest distances are from node 0 -> 2 -> x
 //
 //TODO: Add code to prevent doubling back to a point previously visited, then go back to the starting node after all points have been visited.
+
+/*
 void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 {
 	int k_branches = 3; //lets k_branches to 3. in future we will let users enter the value for k
@@ -697,7 +699,7 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 										//the top of the loop
 
 
-			cout << "/***************************************** Total Distance For This Path ***************************************/\n";
+			cout << "***************************************** Total Distance For This Path ***************************************\n";
 			//cout << total_dist_1 << endl;
 			//cout << "For Node: " << node_tracker << "\n";
 			cout << "Node " << node_tracker << " to Node " << second_node << " to Node " << third_node << " has distance " << total_dist << endl;
@@ -763,11 +765,11 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 
 	return;
 }
-
+*/
 
 
 //Code to properly step through the nearest nodes based off the k-branch n-step lookahead
-void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes)
+void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes, int total_points)
 {
 	int k_branches = 3; //lets k_branches to 3. in future we will let users enter the value for k
 
@@ -792,6 +794,11 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes)
 	
 	visited_nodes.push_back(0); //we start at node 0, so we can just push it back
 
+
+
+
+
+	
 	for (auto nodes : shortest_nodes) //goes through every node in shortest_nodes
 	{
 		//resets already_visited flag
@@ -799,7 +806,7 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes)
 		
 		//vector<pair<double, int>> path_info; //now that I discovered what pair does I feel like I'll use them constantly. similar to what I did with vectors
 		vector<pair<double, int>> path_info;
-		for (int i = 1; i <= k_branches; i++) //start at i=1 so we don't check distance from itself
+		for (int i = 1; i <= total_points - 1; i++) //start at i=1 so we don't check distance from itself
 		{
 
 			
@@ -813,15 +820,6 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes)
 			int third_node;
 
 			total_dist += shortest_nodes[node_tracker][i].first; //adds node currently on to next node distance //THIS WORKS PROPERLY
-			//node_1 = shortest_nodes[node_tracker][i].second;
-
-			//total_dist += shortest_nodes[node_1][i].first;
-		
-			//cout << total_dist << endl;
-			//cout << "node_1 contains value: " << node_1 << endl;
-
-			//total_dist_1 += shortest_nodes[node_1][i].first;
-			//node_2 = shortest_nodes[node_1][i].second;
 
 			second_node = shortest_nodes[node_tracker][i].second;	//gets second node	//THIS WORKS PROPERLY
 
@@ -835,7 +833,7 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes)
 										//the top of the loop
 
 
-			cout << "/***************************************** Total Distance For This Path ***************************************/\n";
+			cout << "***************************************** Total Distance For This Path ***************************************\n";
 			//cout << total_dist_1 << endl;
 			//cout << "For Node: " << node_tracker << "\n";
 			cout << "Node " << node_tracker << " to Node " << second_node << " to Node " << third_node << " has distance " << total_dist << endl;
@@ -844,7 +842,9 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes)
 
 		}
 
-		
+
+
+
 		pair<double, int> shortest_path = path_info[0]; // Create a new pair to store shortest distance and its node
 
 		//BELOW IS CHATGPT GENERATED CODE
@@ -869,7 +869,7 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes)
 			}
 		}
 
-	cout << "\nThe shortest path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
+	cout << "\nThe shortest valid path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
 
 	if (find(visited_nodes.begin(), visited_nodes.end(), shortest_path.second) == visited_nodes.end()) 
 	{
