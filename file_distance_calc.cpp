@@ -16,8 +16,8 @@ using namespace std; //NOTE THIS HAS TO GO BEFORE ALL FUNCTIONS, TOOK ME WAY TO 
 
 
 /**************************function hell *********************************/
-void all_distance_calculation(vector<pair<double, double>> cords);
-void calc_two_step (vector<pair<double, double>> cords);
+//void all_distance_calculation(vector<pair<double, double>> cords);
+//void calc_two_step (vector<pair<double, double>> cords);
 void making_distance_matrix (vector <pair <double, double>> cords, vector <vector <pair <double, int>>> &shortest_nodes);
 void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes);
 
@@ -53,42 +53,6 @@ int main (void)
 	
 
 
-/*
-	//initializes distance matrix. point to itself is 0, otherwise set distance to virtual infinity
-	for(int i = 0; i < total_points; i++)
-	{
-		for (int j = 0; j < total_points; j++)
-		{
-			if (i == j)
-			{
-				distance_matrix[i][j] = 0;
-			}
-			else
-			{
-				distance_matrix[i][j] = 999999999; //dont really need to do this but oh well
-			}
-		}
-	}
-*/
-
-
-/*
-	//testing out I made the 2D vector correct
-	for (int i = 0; i < total_points; i++)
-	{
-		cout << "Node: " << i << endl;
-		for (int j = 0; j < total_points; j++)
-		{
-			cout << distance_matrix[i][j] << endl;
-		}
-
-		cout << endl;
-	}
-*/
-
-
-
-
 	//reads in the points from the .txt file
 	for (int i = 0; i < total_points; i++) //as long as there are points to be calculated (gotten from first line of .txt file does the code)
 	{
@@ -100,43 +64,8 @@ int main (void)
 	}
 
 
-
-
-	//code to simply make sure all cords were gotten correctly. no longer needed uncommented, keeping incase future bugs
-	/*	
-	for (auto cord : cords) //prints out every single cordinate gotten from file. really just a trouble shooting step to make sure everything works
-	{
-		cout << "Cordinate: " << cord.first << ", " << cord.second << "\n";
-	}
-	cout << "\n\n\n"; //code to seperate making sure we got the points to the actual math
-	*/
-
-
-
-	//gets the distances between every point
-	//was a testingpoint until I got calc_two_step(cords) working
-	//all_distance_calculation(cords);
-
-
 	//creates the matrix array and sorts it based off the shortest distance from node A. shortest_nodes stores distance and node so all information needed is there. 
 	making_distance_matrix(cords, shortest_nodes);
-
-
-/*
-	//testing out I made the 2D vector correct
-	for (int i = 0; i < total_points; i++)
-	{
-		cout << "Node: " << i << endl;
-		for (int j = 0; j < total_points; j++)
-		{
-			cout << distance_matrix[i][j] << endl;
-		}
-
-		cout << endl;
-	}
-
-*/
-
 
 
 
@@ -157,11 +86,6 @@ int main (void)
 	}
 */	
 
-
-	//NOTE: this right now has the majority of the code to use
-	//calculate 2-step optimal.if this works i'll eat my sock
-	//calc_two_step(cords);
-
 	two_step_with_matrix(shortest_nodes);
 
 	return 0;	
@@ -172,7 +96,7 @@ int main (void)
 
 
 
-
+/*
 void all_distance_calculation(vector<pair<double, double>> cords)
 {
 	int node_tracker = 0;
@@ -251,7 +175,7 @@ void all_distance_calculation(vector<pair<double, double>> cords)
 
 	return;
 }
-
+*/
 
 
 
@@ -354,7 +278,7 @@ void making_distance_matrix (vector <pair <double, double>> cords, vector <vecto
 
 
 
-
+/*
 //TODO: NOTE: WHATEVER: THIS DOES NOT CALCULATE THE OPTIMAL FIRST 3 NODES. SOMETHING WRONG WITH MY CODE. I THINKIN THE FIRST INNER FOR LOOP IS WHERE THE CODE IS FUCKED DUE TO NOT MOVING THINGS AFTER FINDING A MORE EFFICIENT PATH!!!!!!!!!!!!!
 //I hope one day I can be forgiven for writting this code
 void calc_two_step (vector<pair<double, double>> cords)
@@ -694,6 +618,8 @@ void calc_two_step (vector<pair<double, double>> cords)
 
 	return;
 }
+*/
+
 
 
 //TODO: FIX; right now this calculates things like node 0 to first node in node 2 then node 2 to first node in 3. then it calculates node 0 to second node in 3 then node 3 to second node in 4. I want it to calculate node 0 to first node in node 2, then node to to first node in 3 and node 0 to first node in 2, then node 2 to first node in 4, or whatever the first and second shortest distances are from node 0 -> 2 -> x
@@ -714,14 +640,16 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 	int node_3;
 
 	int node_tracker = 0; //keeps track of nodes
+						  
+	//The TSP part of this problem. keeps track of 'visited nodes'
+	vector <int> visited_nodes;
 	
-
-	//vector of pairs to keep track of the shortest distance and the second node belonging to that path
-	//vector<pair<double, int>> path_info; //now that I discovered what pair does I feel like I'll use them constantly. similar to what I did with vectors
+	visited_nodes.push_back(0); //we start at node 0, so we can just push it back
 
 	for (auto nodes : shortest_nodes) //goes through every node in shortest_nodes
 	{
-
+		
+		//vector<pair<double, int>> path_info; //now that I discovered what pair does I feel like I'll use them constantly. similar to what I did with vectors
 		vector<pair<double, int>> path_info;
 		for (int i = 1; i <= k_branches; i++) //start at i=1 so we don't check distance from itself
 		{
@@ -801,6 +729,7 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
         	}
 
 		cout << "\nThe shortest path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
+		visited_nodes.push_back(shortest_path.second);
 
 
 
@@ -811,6 +740,14 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 
 
 
+	//viewing all the 'visited' nodes
+	
+	cout << "Here are all then nodes we visited: ";
+	for (int nodes : visited_nodes)
+	{
+		cout << nodes << " ";
+	}
+	cout << endl << endl;
 
 
 
