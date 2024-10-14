@@ -640,7 +640,11 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 	int node_3;
 
 	int node_tracker = 0; //keeps track of nodes
+	
+	bool already_visited = false;
 						  
+
+
 	//The TSP part of this problem. keeps track of 'visited nodes'
 	vector <int> visited_nodes;
 	
@@ -648,6 +652,8 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 
 	for (auto nodes : shortest_nodes) //goes through every node in shortest_nodes
 	{
+		//resets already_visited flag
+		already_visited = false;
 		
 		//vector<pair<double, int>> path_info; //now that I discovered what pair does I feel like I'll use them constantly. similar to what I did with vectors
 		vector<pair<double, int>> path_info;
@@ -729,7 +735,28 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
         	}
 
 		cout << "\nThe shortest path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
-		visited_nodes.push_back(shortest_path.second);
+
+		//already_visited = false;
+
+		for (int nodes : visited_nodes)
+		{
+			//already_visited = false; //resets flag
+			if (shortest_path.second == nodes)
+			{
+				already_visited = true;
+				//NOTE: can do 'break' here but that creates messy code, can be an optimization but for while still creating it's fine....
+			}
+		}
+
+
+		if (!already_visited)
+		{
+			visited_nodes.push_back(shortest_path.second);
+		}
+		else
+		{
+			visited_nodes.push_back(-1); //for now pushes -1 if the optimal path visites a node we already went to, TODO: create code later that checks second optimal path
+		}
 
 
 
