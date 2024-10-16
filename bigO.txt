@@ -1,0 +1,1 @@
+through testing the bigO of this current implementation is O(n^2). 
