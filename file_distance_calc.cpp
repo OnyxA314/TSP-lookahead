@@ -882,21 +882,6 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 		visited_nodes.push_back(shortest_path.second); // Add to visited nodes if not already visited
 		distance_traveled += shortest_path.first;
 	} 
-	else //this is the last node, it has to go back to the starting point 
-	{
-		visited_nodes.push_back(0);
-
-		
-		for (auto end_to_start : shortest_nodes[shortest_path.second]) //goes through the list until we find the ending node to the starting node (node 0), then add the distance from that to it
-		{
-			if (end_to_start.second == 0)
-			{
-				distance_traveled += end_to_start.first;
-				break; //break as we found where 0 is at
-			}
-		}
-	}
-
 
 		node_tracker++;
 	
@@ -904,6 +889,21 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 		cout << endl << endl;
 
 	}
+
+
+	//special case to handle the last node back to the starting node. 
+	int last_node = visited_nodes.back();
+        for (auto end_to_start : shortest_nodes[last_node]) 
+        {
+                if (end_to_start.second == 0) // finding the distance back to node 0
+                {
+                        double last_travel = end_to_start.first;
+                        distance_traveled += last_travel;
+                        cout << "\n\nThe last node to the starting node has a distance of " << last_travel << endl;
+                        break;
+                }
+        }
+
 	
 	//STOPPING THE CHATGPT CODE
 
