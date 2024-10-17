@@ -874,14 +874,14 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 		}
 
 
-	//TODO: unncomment below code to see the shortest valid paths with what node should be visited next
-	cout << "\nThe shortest valid path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
+		//TODO: unncomment below code to see the shortest valid paths with what node should be visited next
+		cout << "\nThe shortest valid path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
 
-	if (find(visited_nodes.begin(), visited_nodes.end(), shortest_path.second) == visited_nodes.end()) 
-	{
-		visited_nodes.push_back(shortest_path.second); // Add to visited nodes if not already visited
-		distance_traveled += shortest_path.first;
-	} 
+		if (find(visited_nodes.begin(), visited_nodes.end(), shortest_path.second) == visited_nodes.end()) 
+		{
+			visited_nodes.push_back(shortest_path.second); // Add to visited nodes if not already visited
+			distance_traveled += shortest_path.first;
+		}		 
 
 		node_tracker++;
 	
@@ -899,7 +899,8 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
                 {
                         double last_travel = end_to_start.first;
                         distance_traveled += last_travel;
-                        cout << "\n\nThe last node to the starting node has a distance of " << last_travel << endl;
+                        cout << "\nThe last node to the starting node has a distance of " << last_travel << endl << endl;
+			visited_nodes.push_back(0); //pushes back 0 to show we return to the start
                         break;
                 }
         }
