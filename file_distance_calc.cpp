@@ -828,6 +828,8 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 										//Because at this moment we are only doing 1-step we only have to check the 1st position. with n-step
 										//this code is going have to change
 
+
+			//TODO: ADD CODE TO MAKE SURE IT CANNOT LOOP BACK IN ON ITSELF
 			third_node = shortest_nodes[second_node][1].second;	//gets the third node (node both distances are leading to) 
 										//because at this moment we are only doing 1-step we only have to check the 1st potition. with n-step 
 										//this code will have to change. maybe with another tracker that adds 1 each time then gets reset at 
@@ -880,7 +882,11 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 		if (find(visited_nodes.begin(), visited_nodes.end(), shortest_path.second) == visited_nodes.end()) 
 		{
 			visited_nodes.push_back(shortest_path.second); // Add to visited nodes if not already visited
-			distance_traveled += shortest_path.first;
+
+			//TODO: THIS IS WRONG,THIS IS THE TOTAL PATH LENGTH, WE ONLY NEED FROM NODE A -> NODE B, NOT NODE A -> NODE B -> NODE C
+			//NOTE: BELOW CODE IS WRONG. WE NEED TO USE THE INDEX OF THE SHORTEST)PATH.SECOND NOT THE NODE ITSELF
+			distance_traveled += shortest_nodes[node_tracker][shortest_path.second].first;
+			cout << "Current Path Length: " << distance_traveled << endl << endl;
 		}		 
 
 		node_tracker++;
