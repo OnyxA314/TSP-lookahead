@@ -879,13 +879,49 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 		//TODO: unncomment below code to see the shortest valid paths with what node should be visited next
 		cout << "\nThe shortest valid path has length " << shortest_path.first << " with the second node being " << shortest_path.second << endl;
 
+
+
+
+		//*****************************************NEW CODE, PROBABLY DOESN'T WORK AT FUCKING ALL*********************************
+		
+		//finds the correct index of where the shortest node is
+		int correct_index = -1;
+		for (int i = 0; i < shortest_nodes[node_tracker].size(); i++) 
+		{
+			if (shortest_nodes[node_tracker][i].second == shortest_path.second) 
+			{
+  				correct_index = i; // Get the index where node matches
+  				break;
+  			}
+		}
+
+	
+/*
+		// Now add the distance from node_tracker to the next node (second node)
+		if (correct_index != -1) 
+		{
+			distance_traveled += shortest_nodes[node_tracker][correct_index].first; 
+			cout << "Current Path Length: " << distance_traveled << endl << endl;
+		} 
+		//NOTE: this else statement should never be executed, probably can remove
+		else 
+		{
+			cout << "Error: Could not find a matching node in shortest_nodes.\n";
+		}
+*/
+		//**********************************************END NEW CODE THAT PROBABLY DOESN'T WORK
+
+
+
+
+
 		if (find(visited_nodes.begin(), visited_nodes.end(), shortest_path.second) == visited_nodes.end()) 
 		{
 			visited_nodes.push_back(shortest_path.second); // Add to visited nodes if not already visited
 
 			//TODO: THIS IS WRONG,THIS IS THE TOTAL PATH LENGTH, WE ONLY NEED FROM NODE A -> NODE B, NOT NODE A -> NODE B -> NODE C
 			//NOTE: BELOW CODE IS WRONG. WE NEED TO USE THE INDEX OF THE SHORTEST)PATH.SECOND NOT THE NODE ITSELF
-			distance_traveled += shortest_nodes[node_tracker][shortest_path.second].first;
+			distance_traveled += shortest_nodes[node_tracker][correct_index].first;
 			cout << "Current Path Length: " << distance_traveled << endl << endl;
 		}		 
 
