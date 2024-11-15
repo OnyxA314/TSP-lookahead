@@ -769,6 +769,9 @@ void two_step_with_matrix  (vector<vector<pair<double, int>>> &shortest_nodes)
 
 
 //Code to properly step through the nearest nodes based off the k-branch n-step lookahead
+//NOTE: THE LAST NODE ISN'T BEING CALCULATED CORRECTLY. I HAVE NO IDEA AS OF 11/15/4:32PM WHY THIS IS BUT IT DOESN'T SEEM TO FOLLOW THE RULES. THIS IS THE LAST NODE BEFORE GOING BACK TO 0
+//IT'S DISTANCE ALSO ISN'T BEING ADDED TO THE TOTAL_DIST, THIS PROBABLY INDICATES A OFF BY 1 ERROR
+
 void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes, int total_points)
 {
 	int k_branches = 3; //lets k_branches to 3. in future we will let users enter the value for k
@@ -829,8 +832,9 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 										//this code is going have to change
 
 
-			//TODO: ADD CODE TO MAKE SURE IT CANNOT LOOP BACK IN ON ITSELF
+
 			//NOTE: THIS ONLY MAKES SURE WE DON'T DO A -> B -> A BY CHECKING IF THE THIRD NODE IS THE SAME AS THE FIRST NODE. IF IT IS THEN USE THE SECOND NODE	
+			//I HAVE TO DOUBLE CHECK THAT THIS IS ACTUALLY WORKING PROPERLY
 			if (node_tracker == shortest_nodes[second_node][1].second) //checks if first node is same as third done
 			{
 				second_node = shortest_nodes[node_tracker][2].second;
@@ -926,8 +930,6 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 		{
 			visited_nodes.push_back(shortest_path.second); // Add to visited nodes if not already visited
 
-			//TODO: THIS IS WRONG,THIS IS THE TOTAL PATH LENGTH, WE ONLY NEED FROM NODE A -> NODE B, NOT NODE A -> NODE B -> NODE C
-			//NOTE: BELOW CODE IS WRONG. WE NEED TO USE THE INDEX OF THE SHORTEST)PATH.SECOND NOT THE NODE ITSELF
 			distance_traveled += shortest_nodes[node_tracker][correct_index].first;
 			cout << "Current Path Length: " << distance_traveled << endl << endl;
 		}		 
