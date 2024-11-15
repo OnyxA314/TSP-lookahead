@@ -830,7 +830,14 @@ void traveling_through_points(vector<vector<pair<double, int>>> &shortest_nodes,
 
 
 			//TODO: ADD CODE TO MAKE SURE IT CANNOT LOOP BACK IN ON ITSELF
-			third_node = shortest_nodes[second_node][1].second;	//gets the third node (node both distances are leading to) 
+			//NOTE: THIS ONLY MAKES SURE WE DON'T DO A -> B -> A BY CHECKING IF THE THIRD NODE IS THE SAME AS THE FIRST NODE. IF IT IS THEN USE THE SECOND NODE	
+			if (node_tracker == shortest_nodes[second_node][1].second) //checks if first node is same as third done
+			{
+				second_node = shortest_nodes[node_tracker][2].second;
+			}
+
+
+			third_node = shortest_nodes[second_node][1].second;	//gets the third node (node both distances are leading to) //NOTE: THIS HAS NO CHANGE IF I CHANGE '1' TO 'i' 
 										//because at this moment we are only doing 1-step we only have to check the 1st potition. with n-step 
 										//this code will have to change. maybe with another tracker that adds 1 each time then gets reset at 
 										//the top of the loop
